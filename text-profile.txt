@@ -1,0 +1,40 @@
+?compute_flag@@YAHH@Z:3187:2724
+ 3: 463
+?state_case_flag@?$output_processor@DV?$stream_output_adapter@D@__crt_stdio_output@@V?$format_validation_base@DV?$stream_output_adapter@D@__crt_stdio_output@@@2@@__crt_stdio_output@@AEAA_NXZ:1:0
+ 2: 1
+ 4: 0
+ 5: 0
+ 6: 0
+ 7: 0
+ 8: 0
+ 11: 0
+ 12: 0
+?validate_and_update_state_at_beginning_of_format_character@?$positional_parameter_base@DV?$stream_output_adapter@D@__crt_stdio_output@@@__crt_stdio_output@@IEAA_NXZ:1:0
+ 3: 0
+ 9: 0
+ 11: 0
+ 16: 0
+ 18: 0
+ 20: 0
+ 22: 0
+ 24: 0
+ 27: 0
+ 29: 0
+ 31: 0
+ 35: 0
+ 38: 0
+ 39: 0
+ 40: 0
+ 42: 1
+ 46: 0
+ 48: 0
+ 52: 0
+ 53: 0
+main:9454:0
+ 3: 0
+ 4: 219
+ 5: 580
+ 7: 164
+ 8: 625
+ 9: 7866
+ 11: 0
