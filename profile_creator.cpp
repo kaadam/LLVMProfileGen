@@ -3,6 +3,12 @@
 #include "pdb_manager.h"
 #include <string>
 #include "writer.h"
+#include <algorithm>
+
+bool sortByVal(const pair<std::string, Symbol*>& a,
+  const pair<std::string, Symbol*>& b) {
+  return (a.second->getTotalCount() > b.second->getTotalCount());
+}
 
 bool ProfileCreator::CreateProfile(const wchar_t *input_prof_file,
                                    const wchar_t *pdb_filename) {
@@ -30,8 +36,16 @@ bool ProfileCreator::CreateProfile(const wchar_t *input_prof_file,
     profile[item.first]->updateFuncBody(item.second.first, item.second.second);
   }
 
+  // Sort
+  vector<pair<std::string, Symbol*>> vec;
+  std::map<std::string, Symbol*> :: iterator it;
+  for (it = profile.begin(); it != profile.end(); ++it) {
+    vec.push_back(std::make_pair(it->first, it->second));
+  }
+  sort(vec.begin(), vec.end(), sortByVal);
+
   Writer w;
-  w.Dump(profile);
+  w.Dump(vec);
 
   return true;
 }

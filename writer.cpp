@@ -1,6 +1,6 @@
 #include "writer.h"
 
-void Writer::Dump(std::map<std::string, Symbol*> profileMap)
+void Writer::Dump(std::vector<std::pair<std::string, Symbol*>> profileMap)
 {
   FILE* fp = fopen(out_filename, "w");
   if (!fp) {
