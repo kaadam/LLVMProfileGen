@@ -13,4 +13,5 @@ void Writer::Dump(std::vector<std::pair<std::string, Symbol*>> profileMap)
       fprintf(fp, " %d: %d\n", func_body.first, func_body.second);
     }
   }
+  fclose(fp);
 }
