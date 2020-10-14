@@ -19,8 +19,7 @@ bool SampleReader::Read() {
 
 		// Read in AddressCountMap
 		DWORD addr, count = 0;
-		char func[1024];
-		while (fscanf(fp, "%lx,%[^,],%lu", &addr, func, &count) != EOF) {
+		while (fscanf(fp, "%lx,%lu", &addr, &count) != EOF) {
 			_address_count_map[addr] += count;
 		}
 		

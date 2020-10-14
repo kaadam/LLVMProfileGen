@@ -26,7 +26,7 @@ int wmain(int argc, wchar_t* argv[])
     return -1;
   }
 
-  for (int i = 0; i < argc; ++i) {
+  for (int i = 0; i < argc-1; ++i) {
     if (_wfopen_s(&fp, argv[i], L"r") || !fp) {
       // invalid file name or file does not exist
 

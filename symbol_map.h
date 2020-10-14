@@ -21,7 +21,7 @@ public:
     total_count(0),
     head_count(0),
     start_line(0),
-    mangledName(0),
+    mangledName(),
     body() {}
 
   Symbol(std::vector<DWORD> lines) :
@@ -32,10 +32,10 @@ public:
     body()
   {
     if (lines.size() > 0) {
-      DWORD offset = 0;
+      uint32_t offset = 0;
       start_line = lines[0];
-      for (auto& item : lines) {
-        offset = item - start_line;
+      for (int i = 1; i < lines.size(); ++i) {
+        offset = lines[i] - start_line;
         if (offset > 0)
           body.insert(std::make_pair(offset, 0));
       }

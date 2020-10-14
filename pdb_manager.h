@@ -19,7 +19,7 @@ public:
 			&g_pDiaSession,
 			&g_pGlobalSymbol
 			);
-		if (!ret) printf("ERROR");
+		if (!ret) printf("Faild to load pdb file..");
 	}
 		~PdbManager() {
 //		delete g_szFilename;

@@ -99,24 +99,22 @@ bool PdbManager::LoadPdb (
 
 bool PdbManager::getSymbolNamebyRVA(std::string& buffer, DWORD addr) {
   IDiaSymbol* pFunc;
-  HRESULT hr;
   BSTR buf;
   BOOL is_func;
   DWORD dwSymTag;
 
-
   if (g_pDiaSession->findSymbolByRVA(addr, SymTagPublicSymbol, &pFunc) != S_OK)
     return false;
 
-  //pFunc->get_symTag(&dwSymTag);
-
-
-  //pFunc->get_function(&is_func);
-  pFunc->get_name(&buf);
-  buffer = _com_util::ConvertBSTRToString(buf);
-  pFunc->Release();
-  return true;
-
+  if (pFunc->get_function(&is_func) == S_OK) {
+    if (is_func) {
+      pFunc->get_name(&buf);
+      buffer = _com_util::ConvertBSTRToString(buf);
+      pFunc->Release();
+      return true;
+    }
+  }
+  return false;
 }
 
 bool PdbManager::getFunctionNameByRVA(std::string& buffer, DWORD addr) {
@@ -172,10 +170,6 @@ std::vector<DWORD> PdbManager::getLineNumbersByRVA(DWORD rva)
 bool PdbManager::getAllSymbols(SymMap& map)
 {
   CComPtr<IDiaEnumSymbols> pEnumSymbols;
-  if (g_pGlobalSymbol->findChildren(SymTagPublicSymbol, NULL, nsNone, &pEnumSymbols) != S_OK) {
-    return false;
-  }
-
   CComPtr<IDiaSymbol> pSymbol;
 
   DWORD dwSymTag = 0;
@@ -186,6 +180,10 @@ bool PdbManager::getAllSymbols(SymMap& map)
   std::vector<DWORD> lines = {};
   std::string symbolName;
   BOOL is_func;
+
+  if (g_pGlobalSymbol->findChildren(SymTagPublicSymbol, NULL, nsNone, &pEnumSymbols) != S_OK) {
+    return false;
+  }
 
   while (SUCCEEDED(pEnumSymbols->Next(1, &pSymbol, &celt)) && (celt == 1)) {
     lines.clear();
@@ -221,17 +219,16 @@ bool PdbManager::getAllSymbols(SymMap& map)
                 }
                 pEnum = NULL;
               }
+              else {
+                lines.push_back(0);
+              }
+              symbolName = _com_util::ConvertBSTRToString(bstrName);
+              map[symbolName] = new SourceInfo(rva, static_cast<DWORD>(length), lines);
             }
           }
         }
       }
     }
-    if (!lines.empty()) {
-      symbolName = _com_util::ConvertBSTRToString(bstrName);
-      map[symbolName] = new SourceInfo(rva, static_cast<DWORD>(length), lines);
-
-    }
-
     pSymbol = NULL;
   }
   return true;
