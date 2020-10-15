@@ -20,6 +20,9 @@ public:
   std::vector<DWORD> getLineNumbers() {
     return _lines;
   }
+  DWORD getRVA() {
+    return _rva;
+  }
 
 private:
   DWORD _rva;

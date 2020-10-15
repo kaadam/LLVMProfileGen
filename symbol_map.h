@@ -32,12 +32,13 @@ public:
     body()
   {
     if (lines.size() > 0) {
-      uint32_t offset = 0;
+      uint16_t offset = 0;
       start_line = lines[0];
       for (int i = 1; i < lines.size(); ++i) {
         offset = lines[i] - start_line;
         if (offset > 0)
           body.insert(std::make_pair(offset, 0));
+        //printf("lines[i] - strart_line = offset: %u - %u = %u\n", lines[i], start_line, offset);
       }
     }
   }

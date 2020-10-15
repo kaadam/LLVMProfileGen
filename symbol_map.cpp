@@ -29,7 +29,7 @@ void Symbol::addTotalCount(DWORD count) {
 }
 
 void Symbol::updateFuncBody(DWORD line, DWORD count) {
-  uint32_t offset = line - start_line;
+  uint16_t offset = line - start_line;
   total_count += count;
   if (offset > 0) {
     //body.insert(std::pair<DWORD, DWORD>(offset, count));

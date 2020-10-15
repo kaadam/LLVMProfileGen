@@ -136,7 +136,7 @@ bool PdbManager::getFunctionNameByRVA(std::string& buffer, DWORD addr) {
 
 std::vector<DWORD> PdbManager::getLineNumbersByRVA(DWORD rva)
 {
-  std::vector<DWORD> lineNums;
+  std::vector<DWORD> lineNums = {};
   //IDiaSymbol* pFunc;
   //if (g_pDiaSession->findSymbolByRVA(rva, SymTagFunction, &pFunc) != S_OK) {
   //  return vector<DWORD>{0};
@@ -157,10 +157,10 @@ std::vector<DWORD> PdbManager::getLineNumbersByRVA(DWORD rva)
         if (pLine->get_lineNumber(&dwLinenum) == S_OK) {
           lineNums.push_back(dwLinenum);
         }
+        pLine->Release();
       }
       if (lineNums.empty())
-        return vector<DWORD>{0};
-      pLine->Release();
+        lineNums.push_back(0);
     }
   //}
   pEnum->Release();

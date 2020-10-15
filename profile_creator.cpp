@@ -13,8 +13,6 @@ bool sortByVal(const pair<std::string, Symbol*>& a,
 bool ProfileCreator::CreateProfile(const wchar_t *input_prof_file,
                                    const wchar_t *pdb_filename) {
   reader = new SampleReader(input_prof_file);
-  //pdb = new PdbManager(pdb_filename);
-
   reader->Read();
 
   SymbolMap syms(pdb_filename);
@@ -26,6 +24,7 @@ bool ProfileCreator::CreateProfile(const wchar_t *input_prof_file,
   std::map<std::string, Symbol*> profile;
   for (auto& item : syms.getSampledFunctions()) {
     if (map.count(item)) {
+      //printf("function: %s : rva: %lx \n", item.c_str(), map[item]->getRVA());
       profile.insert(std::make_pair(item, new Symbol(map[item]->getLineNumbers())));
     }
   }

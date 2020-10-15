@@ -10,7 +10,7 @@ void Writer::Dump(std::vector<std::pair<std::string, Symbol*>> profileMap)
     fprintf(fp, "%s:%d:%d\n", item.first.c_str(), item.second->getTotalCount(),
                             item.second->getHeadCount());
     for (auto& func_body : item.second->getFunctionBody()) {
-      fprintf(fp, " %u: %d\n", func_body.first, func_body.second);
+      fprintf(fp, " %hu: %d\n", func_body.first, func_body.second);
     }
   }
   fclose(fp);
