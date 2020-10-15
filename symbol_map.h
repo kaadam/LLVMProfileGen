@@ -21,14 +21,12 @@ public:
     total_count(0),
     head_count(0),
     start_line(0),
-    mangledName(),
     body() {}
 
   Symbol(std::vector<DWORD> lines) :
     total_count(0),
     head_count(0),
     start_line(0),
-    mangledName(),
     body()
   {
     if (lines.size() > 0) {
@@ -56,7 +54,6 @@ private:
 	DWORD total_count;
 	DWORD head_count;
 	DWORD start_line;
-  BSTR mangledName;
 	// Map line offset to count
 	FuncBody body;
 };
