@@ -10,12 +10,12 @@ bool sortByVal(const pair<std::string, Symbol*>& a,
   return (a.second->getTotalCount() > b.second->getTotalCount());
 }
 
-bool ProfileCreator::CreateProfile(const wchar_t *input_prof_file,
-                                   const wchar_t *pdb_filename) {
-  reader = new SampleReader(input_prof_file);
+bool ProfileCreator::CreateProfile(const wchar_t *input_profile,
+                                   const wchar_t *input_pdb_file) {
+  reader = new SampleReader(input_profile);
   reader->Read();
 
-  SymbolMap syms(pdb_filename);
+  SymbolMap syms(input_pdb_file);
   syms.BuildSymbolMap();
   AddressCountMap count_map = reader->getAddressCountMap();
   syms.BuildProfileMap(count_map);

@@ -17,8 +17,9 @@ void printHelpOptions()
 
 int wmain(int argc, wchar_t* argv[])
 {
-  const wchar_t* g_szFilename;
-  const wchar_t* g_szSampleFilename;
+  const wchar_t* input_profile;
+  const wchar_t* input_pdb_file;
+
   FILE* fp;
 
   if (argc < 2) {
@@ -36,11 +37,11 @@ int wmain(int argc, wchar_t* argv[])
     fclose(fp);
   }
 
-  g_szFilename = argv[1];
-  g_szSampleFilename = argv[2];
+  input_profile = argv[1];
+  input_pdb_file = argv[2];
 
   ProfileCreator creator;
-  creator.CreateProfile(g_szFilename, g_szSampleFilename);
+  creator.CreateProfile(input_profile, input_pdb_file);
 
   return 0;
 }
