@@ -23,7 +23,7 @@ public:
     start_line(0),
     body() {}
 
-  Symbol(std::vector<DWORD> lines) :
+  Symbol(std::vector<uint32_t> lines) :
     total_count(0),
     head_count(0),
     start_line(0),
@@ -51,28 +51,33 @@ public:
   void updateFuncBody(DWORD line, DWORD count);
 
 private:
-	DWORD total_count;
-	DWORD head_count;
-	DWORD start_line;
+	uint32_t total_count;
+	uint32_t head_count;
+	uint32_t start_line;
 	// Map line offset to count
 	FuncBody body;
 };
 
 class SymbolMap {
 public:
-  SymbolMap(const wchar_t* pdb_filename) :
+  SymbolMap(const wchar_t* pdb_filename, AddressCountMap& count_map) :
     _symbolNameLineMap(),
     _pmap(),
-    pdb(new PdbManager(pdb_filename)) {};
+    pdb(new PdbManager(pdb_filename)) {
+    BuildSymbolMap();
+    BuildProfileMap(count_map);
+  };
 
-  bool BuildSymbolMap();
-  void BuildProfileMap(AddressCountMap &count_map);
+  ~SymbolMap() { delete pdb; }
+
   set<std::string> getSampledFunctions();
   ProfileMap getProfileMap();
-  
   SymMap getSymbolMap();
   
 private:
+  bool BuildSymbolMap();
+  void BuildProfileMap(AddressCountMap& count_map);
+
   SymMap _symbolNameLineMap;
   ProfileMap _pmap;
   PdbManager *pdb;

@@ -10,7 +10,7 @@
 namespace std {};
 using namespace std;
 
-typedef map<DWORD, DWORD> AddressCountMap;
+typedef map<uint32_t, uint32_t> AddressCountMap;
 
 
 #endif // ! COMMON_H

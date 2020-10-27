@@ -14,11 +14,9 @@ bool ProfileCreator::CreateProfile(const wchar_t *input_profile,
                                    const wchar_t *input_pdb_file) {
   reader = new SampleReader(input_profile);
   reader->Read();
-
-  SymbolMap syms(input_pdb_file);
-  syms.BuildSymbolMap();
   AddressCountMap count_map = reader->getAddressCountMap();
-  syms.BuildProfileMap(count_map);
+
+  SymbolMap syms(input_pdb_file, count_map);
   
   SymMap map = syms.getSymbolMap();
   std::map<std::string, Symbol*> profile;
@@ -36,6 +34,7 @@ bool ProfileCreator::CreateProfile(const wchar_t *input_profile,
   }
 
   // Sort
+  // reserve prealloc size of pmap
   vector<pair<std::string, Symbol*>> vec;
   std::map<std::string, Symbol*> :: iterator it;
   for (it = profile.begin(); it != profile.end(); ++it) {
