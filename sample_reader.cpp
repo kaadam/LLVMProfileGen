@@ -12,7 +12,7 @@ bool SampleReader::Read() {
 		return false;
 	}
 	else {
-		// Read the first line and skip
+		// Read the first line and skip it
 		char buf[100];
 		fgets(buf, 100, fp);
 

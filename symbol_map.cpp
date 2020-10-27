@@ -42,7 +42,7 @@ void Symbol::updateFuncBody(DWORD line, DWORD count) {
 
 bool SymbolMap::BuildSymbolMap()
 {
-  if (!pdb->getAllSymbols(_symbolNameLineMap))
+  if (!pdb->findAllPublicSymbols(_symbolNameLineMap))
     return false;
   return true;
 }
@@ -50,21 +50,23 @@ bool SymbolMap::BuildSymbolMap()
 void SymbolMap::BuildProfileMap(AddressCountMap &count_map)
 {
   std::string mangledName;
-  DWORD line = 0;
   DWORD offset = 0;
+  std::vector<std::uint32_t> nums;
+  static int a = 0;
   for (const auto& item : count_map)
-  {
+  {   // Here we only search for public symbol, but not all functions have linkage name.
       if (pdb->getSymbolNamebyRVA(mangledName, item.first))
       {
-
-        line = pdb->getLineNumbersByRVA(item.first)[0];
-        //_pmap[mangledName] = make_pair(line, item.second);
-        if (line > 0) {
-          _pmap.insert(make_pair(mangledName, make_pair(line, item.second)));
-        }
+        pdb->getLineNumberByRVA(nums, item.first);
+        _pmap.insert(make_pair(mangledName, make_pair(nums[0], item.second)));
+        a++;
+      }
+      else {
+        
+        //TODO , find symbols in Global scope (SymTagPublicSymbol, SymTagFunction)
       }
   }
-  
+  wprintf(L"all: %d", a);
 }
 
 set<std::string> SymbolMap::getSampledFunctions()
